@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.ListIterator;
+import java.util.Map;
 
 /**
  * Class containing land analysis methods
@@ -16,7 +17,7 @@ public class Land {
     private LinkedList<Integer[]> allLand;
     private LinkedList<Integer[]> queue;
     private HashMap<Integer, Integer> sqMetersMap;
-    private int barrenRec[][];
+    private int visitedLand[][];
 
     /**
      * Constructor
@@ -25,7 +26,7 @@ public class Land {
         allLand = new LinkedList<Integer[]>();
         queue = new LinkedList<Integer[]>();
         sqMetersMap = new HashMap<Integer, Integer>();
-        barrenRec = new int [length][width];
+        visitedLand = new int [length][width];
     }
 
     /**
@@ -55,21 +56,21 @@ public class Land {
     public void readInput(String input) {
         String parts [] = input.split(",");
         for(String s : parts) {
-            s = s.replace("\" "," ");
-            s = s.replace("'|'" , " ");
-            s = s.replace("\\{|\\" ," ");
-            s = s.replace("'^'" ," ");
+            s = s.replaceAll("\" ","");
+            s = s.replaceAll("|" , "");
+            s = s.replaceAll("\\{|\\}" ,"");
+            s = s.replaceAll("^" ,"");
             if(!s.isEmpty()) {
                 String points [] = s.split(" ");
                 if(points.length < 4) {
                     fail("Not enough coordinates in set.");
                 }
-                if(Integer.parseInt(points[0]) >= 0 && Integer.parseInt(points[1]) >= 0 &&
-                        Integer.parseInt(points[2]) >= 0 && Integer.parseInt(points[3]) >= 0 &&
-                        Integer.parseInt(points[0]) < 400 && Integer.parseInt(points[1]) < 600 &&
-                        Integer.parseInt(points[2]) < 400 && Integer.parseInt(points[3]) < 600) {
-                    Integer temp [] = {Integer.parseInt(points[0]), Integer.parseInt(points[1]),
-                            Integer.parseInt(points[2]), Integer.parseInt(points[3])};
+                if(Integer.valueOf(points[0]) >= 0 && Integer.valueOf(points[1]) >= 0 &&
+                        Integer.valueOf(points[2]) >= 0 && Integer.valueOf(points[3]) >= 0 &&
+                        Integer.valueOf(points[0]) < 400 && Integer.valueOf(points[1]) < 600 &&
+                        Integer.valueOf(points[2]) < 400 && Integer.valueOf(points[3]) < 600) {
+                    Integer temp [] = {Integer.valueOf(points[0]), Integer.valueOf(points[1]),
+                            Integer.valueOf(points[2]), Integer.valueOf(points[3])};
                     allLand.add(temp);
                 } else
                     fail("Coordinates out of bounds");
@@ -78,12 +79,12 @@ public class Land {
     }
 
     /**
-     * Resets barren land nodes to 0
+     * Sets barren land nodes to 0
      */
     public void clearBarren() {
         for(int i = 0; i < length; i++) {
             for(int j = 0; j < width; j++) {
-                barrenRec[i][j] = 0;
+                visitedLand[i][j] = 0;
             }
         }
     }
@@ -95,9 +96,9 @@ public class Land {
         ListIterator<Integer[]> iterator = allLand.listIterator();
         while(iterator.hasNext()) {
             Integer rectangle [] = iterator.next();
-            for(int i = rectangle[0]; i < rectangle[2]; i++) {
-                for(int j = rectangle[1]; j < rectangle[3]; j++) {
-                    barrenRec[i][j] = 1;
+            for(int i = rectangle[0]; i <= rectangle[2]; i++) {
+                for(int j = rectangle[1]; j <= rectangle[3]; j++) {
+                    visitedLand[i][j] = 1;
                 }
             }
         }
@@ -109,11 +110,69 @@ public class Land {
      * @param yIndex, coordinate
      */
     public void addToQueue(int xIndex, int yIndex) {
-        if(barrenRec[xIndex][yIndex] == 0) {
+        if(visitedLand[xIndex][yIndex] == 0) {
             queue.add(new Integer[] {xIndex, yIndex});
         }
     }
 
+    /**
+     * Calculates fertile land and places results in a HashMap
+     * Traverses coordinate grid, all barren land has same identifier
+     */
+    public void calcFertileLand() {
+        int land = 1;
+        int x = 0;
+        int y = 0;
+        while(x < length && y < width) {
+            if(queue.isEmpty()) { //fertile land since queue is empty
+                Integer node [] = {x, y};
+                if(visitedLand[x][y] == 0) { //if coordinates at [x][y] haven't been added, add to queue
+                    land++;
+                    sqMetersMap.put(land, 0);
+                    queue.add(node);
+                }
+                if(x == (length - 1)) { //pass over all available land
+                    x = 0;
+                    y++;
+                } else
+                    x++;
+            }
+            if(!queue.isEmpty()) {
+                Integer node [] = queue.pop();
+                int i = node[0];
+                int j = node[1];
+                if(visitedLand[i][j] == 0) { //adds remaining fertile coordinates to queue
+                    if(i > 0) {
+                        addToQueue(i - 1, j);
+                    }
+                    if(i < (length - 1)) {
+                        addToQueue(i + 1, j);
+                    }
+                    if(j > 0) {
+                        addToQueue(i, j - 1);
+                    }
+                    if(j < (width - 1)) {
+                        addToQueue(i, j + 1);
+                    }
+                    visitedLand[i][j] = land;
+                    sqMetersMap.put(land, (sqMetersMap.get(land) + 1));
+                }
+            }
+        }
+    }
 
-
+    /**
+     * Prints fertile land results
+     * @return the sorted fertile array results
+     */
+    public String printResults() {
+        int result [] = new int[sqMetersMap.values().size()];
+        int i = 0;
+        for(Map.Entry<Integer, Integer> entry : sqMetersMap.entrySet()) {
+            result[i] = entry.getValue();
+            i++;
+        }
+        Arrays.sort(result);
+        return(Arrays.toString(result)).replaceAll("\\[|\\]|,", " ");
+    }
 }
