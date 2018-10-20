@@ -3,6 +3,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.ListIterator;
 
 /**
  * Class containing land analysis methods
@@ -12,26 +13,26 @@ public class Land {
 
     private final int length = 400;
     private final int width = 600;
-    private LinkedList<Integer []> allLand;
-    private LinkedList<Integer []> queue;
+    private LinkedList<Integer[]> allLand;
+    private LinkedList<Integer[]> queue;
     private HashMap<Integer, Integer> sqMetersMap;
-    private int barrenRec [] [];
+    private int barrenRec[][];
 
     /**
      * Constructor
      */
     public Land() {
-        allLand = new LinkedList<Integer []>();
-        queue = new LinkedList<Integer []>();
+        allLand = new LinkedList<Integer[]>();
+        queue = new LinkedList<Integer[]>();
         sqMetersMap = new HashMap<Integer, Integer>();
         barrenRec = new int [length][width];
     }
 
     /**
      * Prints out a fail message if the program fails
+     * @throws RuntimeException
      */
-    public void fail(String errorMessage) throws RuntimeException
-    {
+    public void fail(String errorMessage) throws RuntimeException {
         System.out.println("<error> " + errorMessage);
         throw new java.lang.RuntimeException("failed");
     }
@@ -54,6 +55,10 @@ public class Land {
     public void readInput(String input) {
         String parts [] = input.split(",");
         for(String s : parts) {
+            s = s.replace("\" "," ");
+            s = s.replace("'|'" , " ");
+            s = s.replace("\\{|\\" ," ");
+            s = s.replace("'^'" ," ");
             if(!s.isEmpty()) {
                 String points [] = s.split(" ");
                 if(points.length < 4) {
@@ -71,4 +76,44 @@ public class Land {
             }
         }
     }
+
+    /**
+     * Resets barren land nodes to 0
+     */
+    public void clearBarren() {
+        for(int i = 0; i < length; i++) {
+            for(int j = 0; j < width; j++) {
+                barrenRec[i][j] = 0;
+            }
+        }
+    }
+
+    /**
+     * Sets all visited barren nodes to 1
+     */
+    public void setBarren() {
+        ListIterator<Integer[]> iterator = allLand.listIterator();
+        while(iterator.hasNext()) {
+            Integer rectangle [] = iterator.next();
+            for(int i = rectangle[0]; i < rectangle[2]; i++) {
+                for(int j = rectangle[1]; j < rectangle[3]; j++) {
+                    barrenRec[i][j] = 1;
+                }
+            }
+        }
+    }
+
+    /**
+     * Adds barren rectangle to queue to be visited
+     * @param xIndex, coordinate
+     * @param yIndex, coordinate
+     */
+    public void addToQueue(int xIndex, int yIndex) {
+        if(barrenRec[xIndex][yIndex] == 0) {
+            queue.add(new Integer[] {xIndex, yIndex});
+        }
+    }
+
+
+
 }
