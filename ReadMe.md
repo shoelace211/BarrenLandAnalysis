@@ -14,3 +14,12 @@ are the coordinates of the top right corner.
 Output 
 Output all the fertile land area in square meters, sorted from smallest area to greatest, separated by a space. 
 
+A sample input would be {"0 292 399 307"}, with the output being 116800 116800.
+
+This project uses the Java programming language and two classes to implement the barren land analysis program. The
+methods used for calculating the amount of fertile land in square meters are contained in the Land class. A 
+main class is used to run these methods. The user can create an object containing the coordinates for barren
+land or this input can be read in from a file. Input using an object would use this notation: {"0 292 399 307"}, while file
+input notation would be: 0 292 399 307. JUnit testing is used to test the main method of calculating the number of square meters 
+of fertile land. These tests include cases such as an empty set, multiple sets of barren coordinates, and cases that would result 
+in a failure of the program.
