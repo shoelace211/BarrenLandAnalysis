@@ -1,5 +1,3 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.File;
 import java.util.Scanner;
 import java.util.Arrays;
@@ -84,7 +82,7 @@ public class Land {
     }
 
     /**
-     * Sets barren land nodes to 0
+     * Sets visited land nodes to 0
      */
     public void clearBarren() {
         for(int i = 0; i < length; i++) {
@@ -110,7 +108,7 @@ public class Land {
     }
 
     /**
-     * Adds barren rectangle to queue to be visited
+     * Adds land coordinates to queue to be visited
      * @param xIndex, coordinate
      * @param yIndex, coordinate
      */
@@ -122,7 +120,7 @@ public class Land {
 
     /**
      * Calculates fertile land and places results in a HashMap
-     * Traverses coordinate grid, all barren land has same identifier
+     * Traverses coordinate grid, adding fertile land to queue and incrementing land
      */
     public void calcFertileLand() {
         int land = 1;

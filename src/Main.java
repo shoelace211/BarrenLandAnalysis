@@ -37,6 +37,5 @@ public class Main {
         } catch (Exception e) {
             fail("Couldn't print to the file.");
         }
-
     }
 }
