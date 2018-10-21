@@ -47,7 +47,6 @@ public class Land {
      */
     public void userSTDIN(String fileName) throws Exception {
         String parts [];
-        boolean flag = false;
         Scanner file = null;
         try{
             file=new Scanner(new File(fileName));
@@ -58,8 +57,7 @@ public class Land {
         while(file.hasNext()) {
             sb.append(file.nextLine());
         }
-        parts = sb.toString().split("  ");
-        System.out.println(Arrays.toString(parts));
+        parts = sb.toString().split(", ");
         readInput(parts);
     }
 
