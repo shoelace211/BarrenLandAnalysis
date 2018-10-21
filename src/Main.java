@@ -18,10 +18,11 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
-        String input [] = {"48 192 351 207", "48 392 351 407", "120 52 135 547", "260 52 275 547"};
+        String STDIN [] = {"48 192 351 207", "48 392 351 407", "120 52 135 547", "260 52 275 547"};
                 //"{0 292 399 307}";
         myLand = new Land();
-        myLand.readInput(input);
+        myLand.userSTDIN("C:\\Users\\Ashley Schuelein\\LandAnalysis\\STDIN.txt");
+        //myLand.readInput(STDIN);
         myLand.clearBarren();
         myLand.setBarren();
         myLand.calcFertileLand();
