@@ -41,14 +41,26 @@ public class Land {
     }
 
     /**
-     * User writes in input and input string is passed to processing method
+     * Used if user reads input from a file
+     * Input is placed in string array and passed on to readInput()
      * @throws Exception
      */
     public void userSTDIN(String fileName) throws Exception {
-        //BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        //System.out.println("Enter barren rectangle coordinates: " );
-        //String input = reader.readLine();
-        //readInput(input);
+        String parts [];
+        boolean flag = false;
+        Scanner file = null;
+        try{
+            file=new Scanner(new File(fileName));
+        }catch(Exception e){
+            fail("File not found.");
+        }
+        StringBuilder sb = new StringBuilder();
+        while(file.hasNext()) {
+            sb.append(file.nextLine());
+        }
+        parts = sb.toString().split("  ");
+        System.out.println(Arrays.toString(parts));
+        readInput(parts);
     }
 
     /**
