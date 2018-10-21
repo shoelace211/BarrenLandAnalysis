@@ -1,5 +1,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.File;
+import java.util.Scanner;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -42,39 +44,32 @@ public class Land {
      * User writes in input and input string is passed to processing method
      * @throws Exception
      */
-    public void userSTDIN() throws Exception {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Enter barren rectangle coordinates: " );
-        String input = reader.readLine();
-        readInput(input);
+    public void userSTDIN(String fileName) throws Exception {
+        //BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        //System.out.println("Enter barren rectangle coordinates: " );
+        //String input = reader.readLine();
+        //readInput(input);
     }
 
     /**
      * Reads user input and places rectangles in linked list
      * @param input, user input of barren land coordinates
      */
-    public void readInput(String input) {
-        String parts [] = input.split(",");
-        for(String s : parts) {
-            s = s.replaceAll("\" ","");
-            s = s.replaceAll("|" , "");
-            s = s.replaceAll("\\{|\\}" ,"");
-            s = s.replaceAll("^" ,"");
-            if(!s.isEmpty()) {
-                String points [] = s.split(" ");
-                if(points.length < 4) {
-                    fail("Not enough coordinates in set.");
-                }
-                if(Integer.valueOf(points[0]) >= 0 && Integer.valueOf(points[1]) >= 0 &&
-                        Integer.valueOf(points[2]) >= 0 && Integer.valueOf(points[3]) >= 0 &&
-                        Integer.valueOf(points[0]) < 400 && Integer.valueOf(points[1]) < 600 &&
-                        Integer.valueOf(points[2]) < 400 && Integer.valueOf(points[3]) < 600) {
-                    Integer temp [] = {Integer.valueOf(points[0]), Integer.valueOf(points[1]),
-                            Integer.valueOf(points[2]), Integer.valueOf(points[3])};
-                    allLand.add(temp);
-                } else
-                    fail("Coordinates out of bounds");
+    public void readInput(String [] input) {
+        for(int i = 0; i < input.length; i++) {
+            String points [] = input[i].split(" ");
+            if(points.length < 4) {
+                fail("Not enough coordinates in set.");
             }
+            if(Integer.valueOf(points[0]) >= 0 && Integer.valueOf(points[1]) >= 0 &&
+                    Integer.valueOf(points[2]) >= 0 && Integer.valueOf(points[3]) >= 0 &&
+                    Integer.valueOf(points[0]) < 400 && Integer.valueOf(points[1]) < 600 &&
+                    Integer.valueOf(points[2]) < 400 && Integer.valueOf(points[3]) < 600) {
+                Integer temp [] = {Integer.valueOf(points[0]), Integer.valueOf(points[1]),
+                        Integer.valueOf(points[2]), Integer.valueOf(points[3])};
+                allLand.add(temp);
+        } else
+            fail("Coordinates out of bounds.");
         }
     }
 
@@ -173,6 +168,6 @@ public class Land {
             i++;
         }
         Arrays.sort(result);
-        return(Arrays.toString(result)).replaceAll("\\[|\\]|,", " ");
+        return(Arrays.toString(result)).replaceAll("\\[|\\]|,", "");
     }
 }
