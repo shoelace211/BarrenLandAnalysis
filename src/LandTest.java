@@ -15,7 +15,7 @@ public class LandTest {
         String result = new String("116800 116800");
         myLand = new Land();
         myLand.readInput(input);
-        myLand.clearBarren();
+        myLand.setToZero();
         myLand.setBarren();
         myLand.calcFertileLand();
         assertEquals(result, myLand.printResults());
@@ -27,7 +27,7 @@ public class LandTest {
         String result = new String ("22816 192608");
         myLand = new Land();
         myLand.readInput(input);
-        myLand.clearBarren();
+        myLand.setToZero();
         myLand.setBarren();
         myLand.calcFertileLand();
         assertEquals(result, myLand.printResults());
@@ -40,7 +40,7 @@ public class LandTest {
         String result = new String("");
         myLand = new Land();
         myLand.readInput(input);
-        myLand.clearBarren();
+        myLand.setToZero();
         myLand.setBarren();
         myLand.calcFertileLand();
         assertEquals(result, myLand.printResults());
@@ -53,7 +53,7 @@ public class LandTest {
         String result = new String("239999");
         myLand = new Land();
         myLand.readInput(input);
-        myLand.clearBarren();
+        myLand.setToZero();
         myLand.setBarren();
         myLand.calcFertileLand();
         assertEquals(result, myLand.printResults());
@@ -66,7 +66,7 @@ public class LandTest {
         String result = new String("<error> Not enough coordinates in set.");
         myLand = new Land();
         myLand.readInput(input);
-        myLand.clearBarren();
+        myLand.setToZero();
         myLand.setBarren();
         myLand.calcFertileLand();
     }
@@ -77,7 +77,7 @@ public class LandTest {
         String result = new String ("175132");
         myLand = new Land();
         myLand.readInput(input);
-        myLand.clearBarren();
+        myLand.setToZero();
         myLand.setBarren();
         myLand.calcFertileLand();
         assertEquals(result, myLand.printResults());
@@ -89,7 +89,7 @@ public class LandTest {
         String result = new String ("156344");
         myLand = new Land();
         myLand.readInput(input);
-        myLand.clearBarren();
+        myLand.setToZero();
         myLand.setBarren();
         myLand.calcFertileLand();
         assertEquals(result, myLand.printResults());
@@ -101,7 +101,7 @@ public class LandTest {
         String result = new String ("76800 156800");
         myLand = new Land();
         myLand.readInput(input);
-        myLand.clearBarren();
+        myLand.setToZero();
         myLand.setBarren();
         myLand.calcFertileLand();
         assertEquals(result, myLand.printResults());

@@ -82,9 +82,9 @@ public class Land {
     }
 
     /**
-     * Sets visited land nodes to 0
+     * Sets all land nodes to 0
      */
-    public void clearBarren() {
+    public void setToZero() {
         for(int i = 0; i < length; i++) {
             for(int j = 0; j < width; j++) {
                 visitedLand[i][j] = 0;

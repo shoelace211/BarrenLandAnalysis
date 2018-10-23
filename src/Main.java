@@ -12,18 +12,16 @@ public class Main {
      * Prints out a fail message if there is a failure
      * @param errorMessage the message to be printed
      */
-    public static void fail(String errorMessage)
-    {
+    public static void fail(String errorMessage) {
         System.out.println("<error> " + errorMessage);
     }
 
     public static void main(String[] args) throws Exception {
-        String STDIN [] = {"48 192 351 207", "48 392 351 407", "120 52 135 547", "260 52 275 547"};
-                //"{0 292 399 307}";
+        //String STDIN [] = {"0 292 399 307"};//{"48 192 351 207", "48 392 351 407", "120 52 135 547", "260 52 275 547"};
         myLand = new Land();
         myLand.userSTDIN("C:\\Users\\Ashley Schuelein\\LandAnalysis\\STDIN.txt");
         //myLand.readInput(STDIN);
-        myLand.clearBarren();
+        myLand.setToZero();
         myLand.setBarren();
         myLand.calcFertileLand();
         System.out.println(myLand.printResults());
